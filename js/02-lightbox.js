@@ -1,4 +1,36 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
+const gallery = document.querySelector('.gallery');
+
+function createMarkup(arr) {
+  return arr.map(({ preview, original, description }) => `
+    <li class="gallery__item">
+      <a class="gallery__link" href="${original}">
+        <img class="gallery__image" src="${preview}" alt="${description}">
+      </a>
+    </li>
+  `).join("");
+}
+
+function renderGallery() {
+  const galleryMarkup = createMarkup(galleryItems);
+  gallery.innerHTML = galleryMarkup;
+
+  const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
+
+  lightbox.on('show.simplelightbox', function (el) {
+    console.log('Image opened', el);
+  });
+
+  lightbox.on('close.simplelightbox', function () {
+    console.log('Lightbox closed');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', renderGallery);
+
 console.log(galleryItems);
